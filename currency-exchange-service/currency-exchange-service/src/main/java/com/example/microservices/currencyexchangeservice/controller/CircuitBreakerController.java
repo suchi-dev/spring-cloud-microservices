@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 
 @RestController
@@ -42,5 +43,20 @@ public class CircuitBreakerController {
 	public String hardCodedResponse(Exception ex) {
 		return "Fall back Response";
 	}
+	
+	
+	@GetMapping("/sample-api-rate-limiter")
+	@RateLimiter(name = "sample-api-rate")
+	public String getSampleString() {
+		return "Rate Limiter Example";
+	}
+	
+	
+	@GetMapping("/sample-api-bulkhead")
+	@RateLimiter(name = "sample-api-bulkhead")
+	public String  testBulkHead() {
+		return "Bulk Head Sample";
+	}
+	
 
 }
