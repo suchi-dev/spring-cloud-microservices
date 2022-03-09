@@ -1,7 +1,8 @@
 package com.example.microservices.currencyexchangeservice.controller;
 
-import java.math.BigDecimal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +21,15 @@ public class CurrencyExchangeController {
 	@Autowired
 	private CurrencyExchangeRepository currencyExchangeRepository;
 	
+
+	private Logger logger = LoggerFactory.getLogger(CurrencyExchangeController.class);
 	
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")
 	public CurrencyExchange retreiveExchange(@PathVariable String from, @PathVariable String to) {
 		//CurrencyExchange currencyExchange =  new CurrencyExchange(1001L, from, to, BigDecimal.valueOf(50));
 		
+		
+		logger.info("Currency exchange retrieved from {} to  {} ", from, to);
 		CurrencyExchange currencyExchange = currencyExchangeRepository.findByFromAndTo(from, to);
 		if (currencyExchange == null) {
 			throw new RuntimeException("Unable to find data from from: "+from + " and to: "+ to);
